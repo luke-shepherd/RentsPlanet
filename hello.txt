@@ -1,0 +1,5 @@
+Hello, 
+
+This is a file on the git repo for our cmps115 project "Renter Paradise"
+
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8" />
+    <title>Rent's Planet</title>
+    </head>
+
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <script src="testoutput.js"></script>
+
+    <h1 class="text-center">Rent's Planet</h1>
+
+    <!-- id: editform
+         onsubmit: editformSubmit()
+            text entries: address, landlord
+            submit button: <nameless>
+            radio buttons: formradio: search, delete, edit-->
+    <form class="row" id="editform" onsubmit="return editformSubmit();"> 
+        <p class="col-xs-12" style="margin: 0px">
+            <p class="col-xs-6 text-right" style="font-size: 200%; margin: 0px">Address:</p>
+            <input type="text" tabindex="1" class="col-xs-6" style="padding: 0px; width: 200px; margin-top: 7px" name="address"></input>
+        </p>
+
+        <p class="col-xs-12" style="margin: 0px">
+            <p class="col-xs-6 text-right" style="font-size: 200%; margin: 0px">Landlord:</p>
+            <input type="text" tabindex="2" class="col-xs-6" style="padding: 0px; width: 200px; margin-top: 7px" name="landlord"></input>
+        </p>
+
+        <span class="col-xs-12">
+            <p class="col-xs-6"></p>
+            <span class="col-xs-6" style="padding: 0px">
+                <input type="submit" tabindex="3" style="width: 80px" value="Submit"></input>
+                <input type="radio" name="formradio" value="search" checked=true> Search</input>&emsp;
+                <input type="radio" name="formradio" value="delete"> Delete</input>&emsp;
+                <input type="radio" name="formradio" value="edit"> Edit</input>
+                <!--input type="submit" name="delete" style="width: 80px" value="Delete"></input>
+                <input type="submit" name="search" style="width: 80px" value="Search"></input-->
+            </span>
+        </span>
+    </form>
+
+</html>
