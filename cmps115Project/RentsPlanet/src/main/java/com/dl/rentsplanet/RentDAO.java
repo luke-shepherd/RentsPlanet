@@ -63,7 +63,7 @@ public class RentDAO {
         }
         Session session = factory.openSession();
         Transaction tx = null;
-	List<RentEntryBean> house_list = new ArrayList<RentEntryBean>();
+    	List<RentEntryBean> house_list = new ArrayList<RentEntryBean>();
         try{
             tx = session.beginTransaction();
             List houses = session.createQuery("FROM House").list();
