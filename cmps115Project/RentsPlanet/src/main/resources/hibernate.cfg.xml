@@ -13,14 +13,14 @@
 
         <!-- CHANGE BASED ON DB NAME -->
         <property name="hibernate.connection.url">
-            jdbc:mysql://localhost/rentsplanet
+            jdbc:mysql://localhost/RENTSPLANET
         </property>
 
         <property name="hibernate.connection.username">
             root
         </property>
         <property name="hibernate.connection.password">
-            toor
+            root
         </property>
 
         <!-- List of XML mapping files -->
