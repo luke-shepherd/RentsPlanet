@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Place Autocomplete</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="inital-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="gplace.css">
+</head>
+<body>
+    <input id="pac-input" class="controls" type="text" placeholder="Enter a location">
+    <div id="map"></div>
+    <script type="text/javascript">
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 37.0, lng: -122},
+                zoom: 5
+            });
+            var input = document.getElementById('pac-input');
+
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.bindTo('bounds', map);
+            var marker = new google.maps.Marker({
+                map: map,
+                anchorPoint: new google.maps.Point(0, 0)
+            });
+
+            autocomplete.addListener('place_changed', function() {
+                marker.setVisible(false);
+                var place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    window.alert("No details available for input: '" + place.name + "'");
+                    return;
+                }
+            map.setCenter(place.geometry.location);
+            map.setZoom(15);
+            marker.setPosition(place.geometry.location);
+            marker.setVisible(true);
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD59lCXnBqG-hGifbQsHMnjMfkp6x63UX4&libraries=places&callback=initMap"
+        async defer></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8" />
+    <title>Rent's Planet</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="rentsplanet.css">
+    <link rel="stylesheet" type="text/css" href="gmap.css">
+    <script src="housing_calls.js"></script>
+    <script src="vue.js"></script>
+    <!--script src="jquery-3.1.1.js"></script-->
+    </head>
+
+    <body>
+    <!-- searchinfo with 'Search', map, and address info -->
+    <div id="searchinfo" class="text-center row">
+        <h1 class="text-center">Rent's Planet</h1>
+        <div class="col-xs-offset-0 col-xs-12 col-sm-offset-1 col-sm-10">
+            <div :class="{fullMapContainer:!searched}" class="col-xs-12 col-sm-8 nopad">
+                <div id="input-wrapper" class="position col-xs-12">
+                    <input id="pac-input" class="controls col-xs-offset-1" type="text" placeholder="Enter a location" v-on:submit="handleSearch">
+                    <button class="address-buttons nopad btn" v-on:click="cancelSearch">Clear</button>
+                </div>
+                <div id="map" :class="{fullMap:!searched}">
+                </div>
+            </div>
+            <div v-if="searched" class="col-xs-12 col-sm-4 text-left">
+                <div class="">
+                    <p style="">{{address}}</p>
+                    <p v-for="info in addrinfo" style="white-space:nowrap">{{info}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- review creation form -->
+    <div id="createform" class="text-center create-form">
+        <div v-if="searched" class="my-form my-form-input col-xs-offset-1 col-xs-10">
+            <!-- buttons to show or hide form -->
+            <transition name="fade" mode="out-in">
+                <span v-if="form">
+                    <button class="address-buttons-2 btn" v-on:click="cancelForm">Cancel</button>
+                </span>
+                <div v-if="!form">
+                    <button class="address-buttons-2 btn" v-on:click="showForm">Create New Review</button>
+                </div>
+            </transition>
+            <!-- review form w/ submit button -->
+            <transition name="slide-fade">
+            <div v-if="form" class="row">
+                <div>
+                </div>
+                <div>
+                    <input type="text" placeholder="Landlord Name" class="my-form my-form-input input-field"  v-model="landlord">
+                    <input type="text" placeholder="Your Email" class="my-form my-form-input input-field" v-model="email">
+                    <input type="text" placeholder="Rent" class="my-form my-form-input input-field" v-model="rent">
+                </div>
+                <textarea placeholder="Review" class="my-form my-form-input input-field"v-model="review"></textarea>
+                <div>
+                    <input type="radio" value="tenant" v-model="creator"> Tenant</input>&emsp;
+                    <input type="radio" value="neighbor" v-model="creator"> Neighbor</input>
+                </div>
+                <div>
+                    <button class="address-buttons-2 btn" v-on:click="handleCreate">Create</button>
+                </div>
+            </div>
+            </transition>
+        </div>
+    </div>
+
+    <!-- show reviews here -->
+    <div id="reviews" class="text-center row">
+        <div v-if="searched" class="col-xs-12 text-center" v-for="(review, index) in reviews" >
+            <div class="my-form my-form-output col-xs-offset-1 col-xs-10">
+                <!-- Either show a review or show its edit form if selected -->
+                    <div>
+                        <span>Address:
+                            <span  v-if="num_edit != index" class="my-form my-form-output input-field">{{review.address}}</span>
+                        </span>
+                        <span>Landlord: 
+                            <span  v-if="num_edit != index" class="my-form my-form-output input-field">{{review.landlord}}</span>
+                            <input  v-else type="text" class="my-form my-form-input input-field" placeholder="Landlord Name" v-model="edit_form.landlord">
+                        </span>
+                        <span>User Email: 
+                            <span  v-if="num_edit != index" class="my-form my-form-output input-field">{{review.email}}</span> 
+                            <input  v-else type="text" class="my-form my-form-input input-field" placeholder="Email" v-model="edit_form.email">
+                        </span>
+                        <span>Rent:
+                            <span  v-if="num_edit != index" class="my-form my-form-output input-field">{{review.rent}}</span> 
+                            <input  v-else type="text" class="my-form my-form-input input-field" placeholder="Rent" v-model="edit_form.rent">
+                        </span>
+                        <span>Type: 
+                            <span  v-if="num_edit != index" class="my-form my-form-output input-field">{{review.creator}}</span>
+                            <span  v-else class="my-form my-form-input input-field">
+                                <input type="radio" value="tenant" v-model="edit_form.creator"> Tenant</input>&emsp;
+                                <input type="radio" value="neighbor" v-model="edit_form.creator"> Neighbor</input>
+                            </span>
+                        </span>
+                    </div>
+
+                    <div>
+                        Review:
+                        <span  v-if="num_edit != index" class="my-form my-form-output input-field" style="white-space:pre-line;">{{review.review}}</span>
+                        <textarea  v-else placeholder="Review" class="my-form my-form-input input-field" v-model="edit_form.review"></textarea>
+                    </div>
+
+                    <!-- if editing, show (confirm) edit, cancel, and delete buttons, otherwise show button to toggle edit -->
+                    <transition name="fade">
+                        <button v-if="num_edit != index" class="address-buttons btn" v-on:click="showEdit(index)">Edit</button>
+                    </transition>
+                    <transition name="fade">
+                        <button v-if="num_edit == index" class="address-buttons btn" v-on:click="handleEdit(index)">Edit</button>
+                    </transition>
+                    <transition name="fade">
+                        <span v-if="num_edit == index">
+                            <button  class=" address-buttons btn" v-on:click="toggleEdit(index)">Cancel</button>
+                            <button  class=" address-buttons btn" v-on:click="handleDelete(index)">Delete</button>
+                        </span>
+                    </transition>
+            </div>
+        </div>
+    </div>
+    </body>
+
+    <!-- vue script and Google API scripts for map and places -->
+    <script src="rentsplanetvue.js"></script>
+    <script src="gapirentsplanet.js"></script>
+    <!-- Google API key and calls -->
+    <script asyn defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD59lCXnBqG-hGifbQsHMnjMfkp6x63UX4&libraries=places&region=US&callback=initMap"></script> 
+</html>
