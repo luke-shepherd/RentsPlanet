@@ -1,0 +1,74 @@
+input[type="submit"]:focus {
+    border:inherit;
+    color:#2e2f2a;
+}
+
+input[type="submit"]:active {
+    background-color:#aaaaaa;
+    color:#1e1f1a;
+}
+
+.slide-fade-enter-active, .slide-fade-leave-active{
+    transition: all 0.2s;
+}
+
+.slide-fade-enter, .slide-fade-leave-active{
+    opacity: 0;
+    transform: translateY(-5px);
+}
+
+.fade-enter-active {
+    transition: all 0.2s;
+    transition-delay: 0.2s;
+}
+
+.fade-enter, .fade-leave-active {
+    opacity: 0;
+}
+
+.my-form {
+    padding: 12px 16px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+}
+
+.my-form-input {
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #dfd7ca;
+}
+
+.my-form-output {
+    background-color: #eeeeee;
+    background-image: none;
+    border: 1px solid #8f877a;
+}
+
+.input-field {
+    min-width: 200px;
+    max-width: 80%;
+    margin: 2px;
+    display: inline-block;
+}
+
+.address-buttons {
+    margin:2px;
+    width:80px;
+    font-size:12px;
+}
+
+.address-buttons-2 {
+    margin:2px;
+    width:180px;
+    font-size:12px;
+}
+
+#address-edit {
+    margin-right:14px;
+}
+
+.nopad {
+    padding: 0;
+    margin: 0;
+}
